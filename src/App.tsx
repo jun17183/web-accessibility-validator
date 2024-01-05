@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route, Routes, Navigate } from "react-router-dom";
+
 import './globals.css';
 
 import Header from './components/Header';
@@ -9,8 +11,11 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen bg-gray-50 font-mono'>
       <Header />
-      {<MainPage />}
-      {/* <ResultPage /> */}
+      <Routes>
+        <Route path='/'       element={<MainPage />} />
+        <Route path='/result' element={<ResultPage />} />
+        <Route path='*'       element={<MainPage />} />
+      </Routes>
     </div>
   );
 }
