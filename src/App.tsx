@@ -2,13 +2,15 @@ import React from 'react';
 import './globals.css';
 
 import Header from './components/Header';
-import Uploader from './components/Uploader';
+import MainPage from './pages/main';
+import ResultPage from './pages/result';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className='flex flex-col min-h-screen bg-gray-50 font-mono'>
       <Header />
-      <Uploader />
+      {<MainPage />}
+      {/* <ResultPage /> */}
     </div>
   );
 }
