@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import './globals.css';
 
@@ -9,7 +9,7 @@ import ResultPage from './pages/result';
 
 function App() {
   return (
-    <div className='flex flex-col min-h-screen bg-gray-50 font-mono'>
+    <div className='flex flex-col h-screen bg-gray-50 font-mono'>
       <Header />
       <Routes>
         <Route path='/'       element={<MainPage />} />
