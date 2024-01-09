@@ -1,48 +1,20 @@
+import CustomSyntaxHighlighter from 'components/result/CustomSyntaxHighlighter';
 import Box from './Box';
+import BoxTitle from './BoxTitle';
 
-export default function Left() {
-  const codeStr = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div><div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-      <div>
-        <h1>hello</h1>
-      </div>
-    </body>
-  `;
+interface LeftProps {
+  code: string;
+  language: 'html' | 'css';
+  func?: Function;
+}
 
+export default function Left({ code, language, func }: LeftProps) {
   return (
-    <Box title='Your Code' codeStr={codeStr} />
+    <Box>
+      <>
+        <BoxTitle>Your Code</BoxTitle>
+        <CustomSyntaxHighlighter language={language} code={code} func={func} />
+      </>
+    </Box>
   );
 }
