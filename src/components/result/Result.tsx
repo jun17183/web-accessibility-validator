@@ -1,49 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createElement } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { parseDOM } from 'htmlparser2';
-import { createElement } from 'react';
 
-import Left from './Left';
-import Right from './Right';
+import { Language } from 'utils/types';
+import Left from 'components/result/Left';
+import Right from 'components/result/Right';
 
 export default function Result() {
+  const [code, setCode] = useState('');
+  const [language, setLanguage] = useState<Language>('html');
   const [selectedCode, setSelectedCode] = useState('');
 
-  const language = 'html';
-  const htmlStr = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-      <img src='' />
-      <div>
-        <h1>111</h1>
-      </div>
-      <div>
-        <h2>222</h2>
-      </div>
-      <div>
-        <h3>333</h3>
-      </div>
-      <div>
-        <h4>444</h4>
-      </div>
-    </body>
-    </html>
-  `;
+  const location = useLocation();
 
-  const dom = parseDOM(htmlStr);
+  useEffect(() => {
+    setCode(location.state.fileContent);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    console.log(code);
+  }, [code])
+
+  const dom = parseDOM(code);
 
   console.log(dom);
 
   return (
-    <div className='flex items-center justify-center gap-x-10 h-full w-screen min-w-500px'>
-      <Left language={language} code={htmlStr} />
-      <Right language={language} />
-    </div>
+    <>
+      <Left language={language} code={code} />
+      <Right language={language} description='add alt option.' />
+    </>
   );
 }

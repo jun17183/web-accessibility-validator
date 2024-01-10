@@ -1,6 +1,6 @@
-import Guideline from '../components/main/Guideline';
-import Title from '../components/main/Title';
-import Uploader from '../components/main/Uploader';
+import Guideline from 'components/main/Guideline';
+import Title from 'components/main/Title';
+import Uploader from 'components/main/Uploader';
 
 export default function MainPage() {
   return (

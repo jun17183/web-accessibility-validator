@@ -1,10 +1,9 @@
-import CustomSyntaxHighlighter from 'components/result/CustomSyntaxHighlighter';
-import Box from './Box';
-import BoxTitle from './BoxTitle';
+import { Code } from 'utils/types';
+import Box from 'components/result/Box';
+import BoxTitle from 'components/result/BoxTitle';
+import CodeBlock from './CodeBlock';
 
-interface LeftProps {
-  code: string;
-  language: 'html' | 'css';
+interface LeftProps extends Code {
   func?: Function;
 }
 
@@ -13,7 +12,7 @@ export default function Left({ code, language, func }: LeftProps) {
     <Box>
       <>
         <BoxTitle>Your Code</BoxTitle>
-        <CustomSyntaxHighlighter language={language} code={code} func={func} />
+        <CodeBlock><>{code}</></CodeBlock>
       </>
     </Box>
   );

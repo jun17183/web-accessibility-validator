@@ -4,6 +4,6 @@ interface BoxTitleProps {
 
 export default function BoxTitle({ children }: BoxTitleProps) {
   return (
-    <span className='text-2xl pl-2 pb-2'>{children}</span>
+    <div className='flex-none text-2xl pl-2 pb-2'>{children}</div>
   );
 }

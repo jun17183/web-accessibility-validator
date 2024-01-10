@@ -10,6 +10,7 @@ module.exports = {
       },
       height: {
         '98p': '98%',
+        'content': 'calc(100vh - 60px)',
       },
       colors: {
         'one-light': '#fafafa',

@@ -27,5 +27,7 @@
   "paths": {
     "pages/*": ["pages/*"],
     "components/*": ["components/*"],
+    "utils/*": ["utils/*"],
+    "validator/*": ["validator/*"],
   }
 }

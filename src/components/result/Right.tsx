@@ -1,14 +1,15 @@
-import Box from './Box';
-import BoxTitle from './BoxTitle';
-import CustomSyntaxHighlighter from './CustomSyntaxHighlighter';
+import { Language } from 'utils/types';
+import Box from 'components/result/Box';
+import BoxTitle from 'components/result/BoxTitle';
+import CodeBlock from './CodeBlock';
 
 interface RightProps {
   suggestion?: string;
-  language: 'html' | 'css';
+  language: Language;
   description?: string;
 }
 
-export default function Right({ suggestion, language, description }: RightProps) {
+export default function Right({ suggestion = 'dd', language, description }: RightProps) {
   return (
     <Box>
       <>
@@ -16,9 +17,9 @@ export default function Right({ suggestion, language, description }: RightProps)
           suggestion ? (
             <>
               <BoxTitle>Suggestion</BoxTitle>
-              <CustomSyntaxHighlighter language={language} code={suggestion} />
+              <CodeBlock><>{suggestion}</></CodeBlock>
               <BoxTitle>Description</BoxTitle>
-              <div className='flex items-center justify-center h-full my-2 bg-one-light text-2xl text-center rounded-md'>
+              <div className='code-block h-full my-2 p-8 bg-one-light text-lg overflow-auto rounded-md'>
                 <span>{description}</span>
               </div>
             </>

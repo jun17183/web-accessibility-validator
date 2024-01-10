@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <header className='flex items-center justify-between top-0 w-full px-6 py-4 bg-gray-800 text-white'>
+    <header className='flex flex-none items-center justify-between top-0 w-full px-6 py-4 bg-gray-800 text-white'>
       <div>
         <Link to='/'>
           <span className='font-bold text-xl'>Web Accessibility Validator</span>

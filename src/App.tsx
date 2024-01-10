@@ -9,7 +9,7 @@ import ResultPage from './pages/result';
 
 function App() {
   return (
-    <div className='flex flex-col h-screen bg-gray-50 font-mono'>
+    <div className='flex flex-col h-screen bg-gray-50 font-mono overflow-hidden'>
       <Header />
       <Routes>
         <Route path='/'       element={<MainPage />} />
