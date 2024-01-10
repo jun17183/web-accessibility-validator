@@ -6,7 +6,7 @@ interface CodeBlockProps {
 
 export default function CodeBlock({ children }: CodeBlockProps) {
   return (
-    <div className='code-block my-2 p-8 h-full bg-one-light rounded-md text-wrap overflow-auto box-border'>
+    <div className='code-block my-2 p-8 h-full bg-vscode-bg rounded-md text-wrap overflow-auto box-border'>
       {children}
     </div>
   );

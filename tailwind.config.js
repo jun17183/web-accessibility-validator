@@ -14,6 +14,7 @@ module.exports = {
       },
       colors: {
         'one-light': '#fafafa',
+        'vscode-bg': '#1f1f1f',
       }
     },
   },

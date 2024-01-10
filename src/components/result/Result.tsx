@@ -21,11 +21,7 @@ export default function Result() {
   useEffect(() => {
     console.log(code);
   }, [code])
-
-  const dom = parseDOM(code);
-
-  console.log(dom);
-
+  
   return (
     <>
       <Left language={language} code={code} />
