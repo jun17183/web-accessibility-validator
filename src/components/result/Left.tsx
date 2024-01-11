@@ -1,4 +1,5 @@
 import { parseDOM } from 'htmlparser2';
+import { Node, Text, Element, ProcessingInstruction } from 'domhandler';
 
 import { Code } from 'utils/types';
 import Box from 'components/result/Box';
@@ -11,7 +12,7 @@ interface LeftProps extends Code {
 }
 
 export default function Left({ code, language, func }: LeftProps) {
-  const dom = parseDOM(code);
+  //const dom = parseDOM(code);
 
   return (
     <Box>

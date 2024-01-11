@@ -1,4 +1,4 @@
-import { ChildNode, Text, Element, ProcessingInstruction } from 'domhandler';
+import { Text, Element, ProcessingInstruction } from 'domhandler';
 
 const OpeningTag = ({ name }: { name: string }) => {
   return (
@@ -72,7 +72,7 @@ const ElementNode = ({ name, attribs, children }: { name: string, attribs: Objec
   );
 }
 
-const getHighlightedNode = (item : ChildNode) => {
+const getHighlightedNode = (item : Node) => {
   if (item instanceof ProcessingInstruction) {
     return <DOCTYPE />
   }
