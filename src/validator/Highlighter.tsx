@@ -1,4 +1,5 @@
-import { Text, Element, ProcessingInstruction } from 'domhandler';
+import { ChildNode, Text, Element, ProcessingInstruction } from 'domhandler';
+import { ParsedCode } from 'utils/types';
 
 const OpeningTag = ({ name }: { name: string }) => {
   return (
@@ -72,7 +73,7 @@ const ElementNode = ({ name, attribs, children }: { name: string, attribs: Objec
   );
 }
 
-const getHighlightedNode = (item : Node) => {
+const getHighlightedNode = (item : ChildNode) => {
   if (item instanceof ProcessingInstruction) {
     return <DOCTYPE />
   }
@@ -84,17 +85,28 @@ const getHighlightedNode = (item : Node) => {
   if (item instanceof Element) {
     return <ElementNode name={item.name} attribs={item.attribs} children={item?.children} />
   }
+
+  return <span>Error</span>
 }
 
-export default function Highlighter({ dom }: { dom: ChildNode[] }) {
+export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) {
+  let highlightedCode;
 
-  const highlightedCode = dom.map((item, i) => {
-    return getHighlightedNode(item);
-  });
+  if (!parsedCode) {
+    console.log('parsedCode is null.');
+  } else if (Array.isArray(parsedCode)) {
+    console.log('test');
+    highlightedCode = parsedCode && parsedCode.map((item, i) => {
+      return getHighlightedNode(item);
+    });
+  } else {
+    console.log(parsedCode);
+  }
+  
 
   return (
     <>
-      {highlightedCode}
+      {highlightedCode && highlightedCode}
     </>
   );
 }

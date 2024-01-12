@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Uploader() {
   const [fileNm, setFileNm] = useState('');
+  const [fileType, setFileType] = useState('html');
   const [fileContent, setFileContent] = useState('');
   
   const fileInput = useRef<HTMLInputElement>(null);
@@ -14,13 +15,9 @@ export default function Uploader() {
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('on change')
-
     const file = e.target.files?.item(0);
 
     if (file) {
-      console.log(file)
-
       if (file.type !== 'text/html' && file.type !== 'text/css') {
         alert('Only one .html or .css file can be uploaded.');
         return;
@@ -31,18 +28,15 @@ export default function Uploader() {
       fr.onload = (e) => {
         const fileContent = e.target?.result;
 
-        if (typeof fileContent === 'string') {
-          console.log(fileContent)
-          setFileContent(fileContent);
-        }
-
-        if (typeof file?.name === 'string') {
-          console.log(file.name)
+        if (typeof fileContent === 'string' && typeof file?.name === 'string') {
           setFileNm(file.name);
+          setFileType(file.type.split("/")[1]);
+          setFileContent(fileContent);
         }
       }
       fr.readAsText(file);
     } else {
+      // 취소 시에도 해당 alert 노출됨. 수정 필요 : fixme
       alert('File upload failed');
     }
   }
@@ -51,6 +45,7 @@ export default function Uploader() {
     if (fileContent) {
       navigate('/result', {
         state: {
+          fileType: fileType,
           fileContent: fileContent
         }
       });

@@ -1,8 +1,6 @@
 import { useEffect, useState, createElement } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { parseDOM } from 'htmlparser2';
-
 import { Language } from 'utils/types';
 import Left from 'components/result/Left';
 import Right from 'components/result/Right';
@@ -15,12 +13,9 @@ export default function Result() {
   const location = useLocation();
 
   useEffect(() => {
+    setLanguage(location.state.fileType);
     setCode(location.state.fileContent);
   }, [location.pathname]);
-
-  useEffect(() => {
-    console.log(code);
-  }, [code])
   
   return (
     <>
