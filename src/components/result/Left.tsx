@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 
 import { Parser } from 'htmlparser2';
 import { DomHandler } from 'domhandler';
-import { Node, Text, Element, ProcessingInstruction } from 'domhandler';
 
 import { cssToJson } from 'utils/cssjson';
-
 import { Code, ParsedCode } from 'utils/types';
+
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';

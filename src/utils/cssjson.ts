@@ -13,9 +13,9 @@ interface Obj {
     type?: string;
 }
 
-const selX = /([^\s\;\{\}][^\;\{\}]*)\{/g;
-const endX = /\}/g;
-const lineX = /([^\;\{\}]*)\;/g;
+// const selX = /([^\s\;\{\}][^\;\{\}]*)\{/g;
+// const endX = /\}/g;
+// const lineX = /([^\;\{\}]*)\;/g;
 const commentX = /\/\*[\s\S]*?\*\//g;
 const lineAttrX = /([^\:]+):([^\;]*);/;
 
@@ -30,7 +30,7 @@ let capEnd = 3;
 let capAttr = 4;
 
 function isEmpty (x: any) {
-    return typeof x == 'undefined' || x.length == 0 || x == null;
+    return typeof x === 'undefined' || x.length === 0 || x === null;
 };
 
 function trim(str: string) {
@@ -45,7 +45,7 @@ export function cssToJson(cssString: string, args?: Args): CssNode {
     let match = null;
     let count = 0;
 
-    if (typeof args == 'undefined') {
+    if (typeof args === 'undefined') {
         args = {
             ordered: false,
             comments: false,
