@@ -8,8 +8,8 @@ export type Code = {
 }
 
 export type CssNode = {
-    attributes: { [key: string]: any };
-    children: { [key: string]: any };
+    attributes: { [key: string]: string | string[] };
+    children: { [key: string]: CssNode };
     [key: number]: any;
 }
 

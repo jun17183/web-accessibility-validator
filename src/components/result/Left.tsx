@@ -9,7 +9,7 @@ import { Code, ParsedCode } from 'utils/types';
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';
-import Highlighter from 'validator/Highlighter';
+import Highlighter from 'highlighter/Highlighter';
 
 interface LeftProps extends Code {
   func?: Function;
@@ -27,10 +27,10 @@ export default function Left({ code, language, func }: LeftProps) {
             setParsedCode(result);
         }
       });
-  
       const parser = new Parser(handler);
       parser.write(code);
       parser.end();
+
     } else if (language === 'css') {
       setParsedCode(cssToJson(code)); 
     }

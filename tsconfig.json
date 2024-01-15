@@ -29,5 +29,6 @@
     "components/*": ["components/*"],
     "utils/*": ["utils/*"],
     "validator/*": ["validator/*"],
+    "highlighter/*": ["highlighter/*"],
   }
 }

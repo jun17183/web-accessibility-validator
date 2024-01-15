@@ -117,8 +117,9 @@ export function cssToJson(cssString: string, args?: Args): CssNode {
                   let currVal = node.attributes[name];
                   if (!(currVal instanceof Array)) {
                     node.attributes[name] = [currVal];
+                  } else {
+                    currVal.push(value);
                   }
-                  node.attributes[name].push(value);
                 } else {
                   node.attributes[name] = value;
                 }
