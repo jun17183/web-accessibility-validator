@@ -1,28 +1,38 @@
-import { ReactNode } from 'react';
-import { CssNode } from 'utils/types';
+import { ReactNode, useEffect } from 'react';
 
-type SelectorType = 'element' | 'idAndClass' | 'attrib' | 'pseudo' | 'comibator';
+import { CSSNode, CSSToken } from 'utils/types';
 
 const splitSeletor = (selector: string) => {
-  let temp;
-  // 1. 띄워쓰기로 분리
-  // 2. > 로 분리
-  // 3. id or class / element 로 분리
-  // 4. 가상 선택자와 속성 선택자 부분과 아닌 부분 분리
-  // 5. 아닌 부분에 색깔 적용
-  // 6. 가상 선택자와 속성 선택자 분리
-  // 7. 가상 선택자에 색깔 적용
-  // 8. 속성 선택자 [key=value] 색깔 적용
+  const tokens: CSSToken[] = [];
+  let token: CSSToken | null = null;
+  let type;
 
-  // >> 고민 더 해보기
-  
-  // 1.
-  temp = selector.split(" ");
+  for (let i = 0; i < selector.length; i++) {
+    let c = selector[i];
+    
+    if (!token) {
+      token = new CSSToken('element');
 
+      if (c === '#' || c === '.') {
+        token.type = 'element';  
+      } else if (c === ':') {
+        token.type = 'pseudo';
+      }
+    } else {
+      
+    }
+
+    if (/[\s>\[\]\(\)"|=+~],/.test(c)) {
+      
+    }
+    
+  }
 }
 
-export default function CSSHighlighter(parsedCSSObj: CssNode): ReactNode {
-  const selectors = parsedCSSObj.children;
+export default function CSSHighlighter(parsedCSSObj: CSSNode): ReactNode {
+    if (parsedCSSObj) {
+
+    }
 
 
   return <></>

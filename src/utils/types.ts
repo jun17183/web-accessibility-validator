@@ -7,10 +7,21 @@ export type Code = {
   code: string;
 }
 
-export type CssNode = {
+export type ParsedCode = ChildNode[] | CSSNode | null;
+
+export interface CSSNode {
     attributes: { [key: string]: string | string[] };
-    children: { [key: string]: CssNode };
+    children: { [key: string]: CSSNode };
     [key: number]: any;
 }
 
-export type ParsedCode = ChildNode[] | CssNode | null;
+export type SelectorType = 'element' | 'idAndClass' | 'attrib' | 'pseudo' | 'combinator' | 'key' | 'value';
+
+export class CSSToken {
+  type;
+  data;
+  constructor(type: SelectorType) {
+    this.type = type;
+    this.data = '';
+  }
+}

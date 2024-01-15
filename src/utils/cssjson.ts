@@ -1,4 +1,4 @@
-import { CssNode } from 'utils/types';
+import { CSSNode } from 'utils/types';
 
 interface Args {
     ordered: boolean;
@@ -9,7 +9,7 @@ interface Args {
 
 interface Obj {
     name?: string;
-    value?: CssNode | string;
+    value?: CSSNode | string;
     type?: string;
 }
 
@@ -37,8 +37,8 @@ function trim(str: string) {
     return str.replace(/^\s+|\s+$/g, '');
 }
 
-export function cssToJson(cssString: string, args?: Args): CssNode {
-    const node: CssNode = {
+export function cssToJson(cssString: string, args?: Args): CSSNode {
+    const node: CSSNode = {
         children: {},
         attributes: {},
     };

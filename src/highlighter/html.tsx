@@ -28,11 +28,11 @@ const Attribs = ({ attribs }: { attribs: Object }) => {
         attribsArr.map(([key, value], i) => {
           return (
             <span key={i}>
-              <span className='attribs-key'>{` ${key}`}</span>
+              <span className='attribs-key'>{` ${key}`}</span>  {/* 태그 네임에서 한 칸 띄우고 key */}
               <span className='text'>=</span>
-              {i === 0 && <span className='attribs-value'>'</span>}
+              {i === 0 && <span className='attribs-value'>'</span>} {/* 첫번째 속성 => ' */}
               <span className='attribs-value'>{`${value}`}</span>
-              {<span className='attribs-value'>{i === attribsArr.length - 1 ? `'` : ` `}</span>}
+              {<span className='attribs-value'>{i === attribsArr.length - 1 ? `'` : ` `}</span>} {/* 마지막 속성 => ' , 아니면 띄워쓰기 */}
             </span>
           );
         })
@@ -43,11 +43,11 @@ const Attribs = ({ attribs }: { attribs: Object }) => {
 }
 
 const DOCTYPE = () => {
-  return (
+  return (  // <!DOCTYPE html>
     <div>
       <span className='lt-gt'>{`<!`}</span>
       <span className='tag-name'>DOCTYPE</span>
-      <span className='attribs-key'>{` `}html</span>
+      <span className='attribs-key'>{` `}html</span> 
       <span className='lt-gt'>{`>`}</span>
     </div>
   );
