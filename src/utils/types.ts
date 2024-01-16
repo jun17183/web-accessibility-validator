@@ -15,7 +15,7 @@ export interface CSSNode {
     [key: number]: any;
 }
 
-export type SelectorType = 'element' | 'idAndClass' | 'attrib' | 'pseudo' | 'combinator' | 'key' | 'value';
+export type SelectorType = 'element' | 'idAndClass' | 'attrib' | 'pseudo' | 'key' | 'value' | 'combinator';
 
 export class CSSToken {
   type;

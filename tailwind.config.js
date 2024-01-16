@@ -15,6 +15,9 @@ module.exports = {
       colors: {
         'one-light': '#fafafa',
         'vscode-bg': '#1f1f1f',
+        'gold': '#ffdf00',
+        'sunglow': '#ffcc33',
+        'light-gold': '#fddc5c',
       }
     },
   },
