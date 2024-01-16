@@ -18,6 +18,8 @@ module.exports = {
         'gold': '#ffdf00',
         'sunglow': '#ffcc33',
         'light-gold': '#fddc5c',
+        'pink': '#ff8fc5',
+        'grass': '#9aff90',
       }
     },
   },
