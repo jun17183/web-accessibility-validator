@@ -1,13 +1,10 @@
 import { useEffect, useState, ReactNode } from 'react';
 
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store';
-
 import HTMLHighlighter from 'highlighter/html';
 import CSSHighlighter from 'highlighter/css';
+import { ParsedCode } from 'utils/types';
 
-export default function Highlighter() {
-  const parsedCode = useSelector((state: RootState) => state.codeReducer.parsedCode);
+export default function Highlighter({ parsedCode, validateAt = false }: { parsedCode: ParsedCode, validateAt?: boolean }) {
   const [highlightedCode, setHighlightedCode] = useState<ReactNode>('');
 
   useEffect(() => {
@@ -15,7 +12,7 @@ export default function Highlighter() {
       setHighlightedCode('Your source is empty.');
 
     } else if (Array.isArray(parsedCode)) { // html
-      const highlightedHTML = HTMLHighlighter(parsedCode);
+      const highlightedHTML = <HTMLHighlighter parsedHtmlDom={parsedCode} validateAt={validateAt} />;
       setHighlightedCode(highlightedHTML);
       
     } else {  // css

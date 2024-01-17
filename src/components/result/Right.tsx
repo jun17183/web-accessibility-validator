@@ -1,26 +1,26 @@
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store';
+import { RootState } from 'reducers/store';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';
+import Highlighter from 'highlighter/Highlighter';
 
 export default function Right() {
-  const selectedCode = useSelector((state: RootState) => state.codeReducer.selectedCode);
-  const description = useSelector((state: RootState) => state.codeReducer.description);
+  const suggestion = useSelector((state: RootState) => state.codeReducer.suggestion);
 
   return (
     <Box>
       <>
         {
-          selectedCode ? (
+          suggestion.description.length ? (
             <>
               <BoxTitle>Suggestion</BoxTitle>
-              <CodeBlock><>{selectedCode}</></CodeBlock>
+              <CodeBlock><Highlighter parsedCode={suggestion.node} /></CodeBlock>
               <div className='p-1'></div>
               <BoxTitle>Description</BoxTitle>
               <div className='code-block h-full my-2 p-8 bg-vscode-bg text-lg overflow-auto rounded-md'>
-                <span className='text-white'>{description}</span>
+                <span className='text-white'>{suggestion.description}</span>
               </div>
             </>
           ) : (

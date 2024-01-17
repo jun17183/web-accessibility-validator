@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store';
-import { setParsedCode } from 'redux/codeSlice';
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from 'reducers/store';
+import { setParsedCode } from 'reducers/codeSlice';
 
 import { Parser } from 'htmlparser2';
 import { DomHandler } from 'domhandler';
@@ -10,12 +10,15 @@ import { cssToJson } from 'utils/cssjson';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
-import CodeBlock from './CodeBlock';
+import CodeBlock from 'components/result/CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
 
 export default function Left() {
+  const dispatch = useDispatch();
+
   const language = useSelector((state: RootState) => state.codeReducer.language);
   const code = useSelector((state: RootState) => state.codeReducer.code);
+  const parsedCode = useSelector((state: RootState) => state.codeReducer.parsedCode);
 
   useEffect(() => {
     if (language === 'html') {
@@ -23,7 +26,10 @@ export default function Left() {
         if (error) {
           alert(error);
         } else {
-          setParsedCode(result);
+          console.log(result)
+          if (result.length) {
+            dispatch(setParsedCode(result));
+          }
         }
       });
       const parser = new Parser(handler);
@@ -31,7 +37,7 @@ export default function Left() {
       parser.end();
 
     } else if (language === 'css') {
-      setParsedCode(cssToJson(code)); 
+      dispatch(setParsedCode(cssToJson(code))); 
     }
   }, [code]);
 
@@ -39,7 +45,7 @@ export default function Left() {
     <Box>
       <>
         <BoxTitle>Your Code</BoxTitle>
-        <CodeBlock><Highlighter /></CodeBlock>
+        <CodeBlock><Highlighter parsedCode={parsedCode} validateAt={true} /></CodeBlock>
       </>
     </Box>
   );

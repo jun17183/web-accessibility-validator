@@ -1,5 +1,13 @@
 import { ReactNode } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'reducers/store';
+import { setSuggestion } from 'reducers/codeSlice';
+
 import { ChildNode, Text, Element, ProcessingInstruction } from 'domhandler';
+
+import HTMLValidator from 'validator/html/validator';
+import { Suggestion } from 'utils/types';
 
 const OpeningTag = ({ name }: { name: string }) => {
   return (
@@ -84,7 +92,7 @@ const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attr
   );
 }
 
-const getHighlightedNode = (item: ChildNode, tabStack: number = 1) => {
+export const getHighlightedNode = (item: ChildNode, tabStack: number = 1) => {
   if (item instanceof ProcessingInstruction) {
     return <DOCTYPE />
   }
@@ -100,6 +108,22 @@ const getHighlightedNode = (item: ChildNode, tabStack: number = 1) => {
   return <span>Error</span>
 }
 
-export default function HTMLHighlighter(parsedHtmlDom: ChildNode[]): ReactNode {
-  return parsedHtmlDom.map((item, i) => <span key={i}>{getHighlightedNode(item)}</span>);
+export default function HTMLHighlighter({ parsedHtmlDom, validateAt = false }: { parsedHtmlDom: ChildNode[], validateAt: boolean }) {
+  const dispatch = useDispatch();
+
+  const handleClickNode = (item: ChildNode) => {
+    const suggestion = HTMLValidator(item);
+    dispatch(setSuggestion(suggestion))
+  }
+
+  return (
+    <>
+      {parsedHtmlDom.map((item, i) => {
+        if (validateAt) {
+          return <div key={i} onClick={() => handleClickNode(item)}>{getHighlightedNode(item)}</div>
+        }
+        return <div key={i}>{getHighlightedNode(item)}</div>
+      })}
+    </>
+  );
 }

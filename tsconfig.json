@@ -30,5 +30,6 @@
     "utils/*": ["utils/*"],
     "validator/*": ["validator/*"],
     "highlighter/*": ["highlighter/*"],
+    "reducers/*": ["reducers/*"],
   }
 }
