@@ -1,30 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+
+import { useSelector } from 'react-redux'
+import { RootState } from 'redux/store';
+import { setParsedCode } from 'redux/codeSlice';
 
 import { Parser } from 'htmlparser2';
 import { DomHandler } from 'domhandler';
-
 import { cssToJson } from 'utils/cssjson';
-import { Code, ParsedCode } from 'utils/types';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
 
-interface LeftProps extends Code {
-  func?: Function;
-}
-
-export default function Left({ code, language, func }: LeftProps) {
-  const [parsedCode, setParsedCode] = useState<ParsedCode>(null);
+export default function Left() {
+  const language = useSelector((state: RootState) => state.codeReducer.language);
+  const code = useSelector((state: RootState) => state.codeReducer.code);
 
   useEffect(() => {
     if (language === 'html') {
       const handler = new DomHandler((error, result) => {
         if (error) {
-            alert(error);
+          alert(error);
         } else {
-            setParsedCode(result);
+          setParsedCode(result);
         }
       });
       const parser = new Parser(handler);
@@ -40,7 +39,7 @@ export default function Left({ code, language, func }: LeftProps) {
     <Box>
       <>
         <BoxTitle>Your Code</BoxTitle>
-        <CodeBlock><Highlighter parsedCode={parsedCode} /></CodeBlock>
+        <CodeBlock><Highlighter /></CodeBlock>
       </>
     </Box>
   );
