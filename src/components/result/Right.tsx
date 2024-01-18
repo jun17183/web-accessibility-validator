@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store';
+import { RootState } from 'reducers/store';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';

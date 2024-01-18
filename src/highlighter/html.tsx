@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ChildNode, Text, Element, ProcessingInstruction } from 'domhandler';
+import { HTMLNode, HTMLType, Text, Element } from 'utils/types';
 
 const OpeningTag = ({ name }: { name: string }) => {
   return (
@@ -57,7 +57,7 @@ const TextNode = ({ data }: { data: string }) => {
   return <span className='text'>{data}</span>
 }
 
-const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attribs: Object, children?: ChildNode[], tabStack: number }) => {
+const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attribs: Object, children?: HTMLNode, tabStack: number }) => {
   const MyTab = <span>{'\u00A0\u00A0'.repeat(tabStack - 1)}</span>;
   const ChildrenTab = <span>{'\u00A0\u00A0'.repeat(name !== 'html' ? tabStack++ : tabStack - 1)}</span>;
   let hasTag = false;
@@ -68,8 +68,8 @@ const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attr
       <Attribs attribs={attribs} />
       {children && (
         <>
-          {children.map((item, i) => { 
-            const isTag = item instanceof Element;
+          {Object.values(children).map((item, i) => { 
+            const isTag = ((item as Element).name !== undefined && (item as Element).attribs !== undefined);
             if (isTag && !hasTag) hasTag = true;
             return isTag ? (
               <div key={i}>{ChildrenTab}{getHighlightedNode(item, tabStack)}</div>
@@ -84,22 +84,31 @@ const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attr
   );
 }
 
-const getHighlightedNode = (item: ChildNode, tabStack: number = 1) => {
-  if (item instanceof ProcessingInstruction) {
+const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
+  console.log(item)
+  if (item.type === 'ProcessingInstruction') {
     return <DOCTYPE />
   }
   
-  if (item instanceof Text) {
-    return <TextNode data={item.data} />
+  if (item.type === 'Text') {
+    return <TextNode data={(item as Text).data} />
   }
 
-  if (item instanceof Element) {
-    return <ElementNode name={item.name} attribs={item.attribs} children={item?.children} tabStack={tabStack} />
+  if (item.type === 'Element') {
+    return (
+      <ElementNode 
+        name={(item as Element).name} 
+        attribs={(item as Element).attribs} 
+        children={(item as Element)?.children} 
+        tabStack={tabStack} 
+      />
+    );
   }
 
   return <span>Error</span>
 }
 
-export default function HTMLHighlighter(parsedHtmlDom: ChildNode[]): ReactNode {
-  return parsedHtmlDom.map((item, i) => <span key={i}>{getHighlightedNode(item)}</span>);
+export default function HTMLHighlighter(parsedHtmlDom: HTMLNode): ReactNode {
+  console.log(parsedHtmlDom)
+  return Object.values(parsedHtmlDom).map((item, i) => <span key={i}>{getHighlightedNode(item)}</span>);
 }

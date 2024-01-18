@@ -60,7 +60,7 @@ const getHighlightedSeletor = (selector: string): ReactNode[] => {
   return highlightedSelector;
 }
 
-const getHighlightedAttributes = (attributes: { [key: string]: string | string[] }): ReactNode[] => {
+const getHighlightedAttributes = (attributes: CSSNode): ReactNode[] => {
   const highlightedAttributed: ReactNode[] = [];
   const attribKeyColor: string = 'text-sky-200';
   const attribValueColor: Record<AttribValueType, string> = {
@@ -74,12 +74,20 @@ const getHighlightedAttributes = (attributes: { [key: string]: string | string[]
 
   const reg = /(!important|\(|\)|\[|\]|@|:|\s|[^\s@:!()\[\]]+)/g;
 
-  Object.entries(attributes).map(([key, value], i) => {
-    // cssToJson는 parse 시 returnd으로 attributes를 던지는데 string[] 타입도 있다고 한다.
-    // 이 경우 일단 string으로 통일해주고 진행
-    if (Array.isArray(value)) {  
-      value = value.join(' ');
+  Object.values(attributes).map((item, i) => {
+    if (typeof item === 'string') {
+      return highlightedAttributed.push(
+        <div key={i}>
+          {'\u00A0\u00A0'}
+          <span className='text-green-700'>{item}</span>
+        </div>
+      );
     }
+    const key = item.name;
+    const value = item.value;
+
+    if (typeof value !== 'string') return;
+
     const tokens = value.match(reg);
     const highlightedAttribValue: ReactNode[] = [];
     let type: AttribValueType | null = null;
@@ -129,6 +137,32 @@ const getHighlightedAttributes = (attributes: { [key: string]: string | string[]
 }
 
 export default function CSSHighlighter(parsedCSSObj: CSSNode): ReactNode {
+  Object.values(parsedCSSObj).map((item, i) => {
+    if (typeof item === 'string') {
+      return <div key={i}>{item}</div>
+    } else {
+      const selector = item.name;
+      const attributes = item.value;
+
+      if (typeof attributes === 'string') {
+        return (
+          <div key={i}>
+            <span className='text-green-700'>{attributes}</span>
+          </div>
+        );
+      }
+
+      return (
+        <div key={i}>
+        {getHighlightedSeletor(selector)}
+        {` `}<span className='text-gold'>{`{`}</span>
+        {getHighlightedAttributes(attributes)}
+        <span className='text-gold'>{`}`}</span>
+      </div>
+    );
+  }
+  });
+
   return (
     Object.entries(parsedCSSObj.children).map(([selector, children], i) => {
       return (
