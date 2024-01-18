@@ -68,6 +68,6 @@ export type AttribValueType =
   | 'pseudo' 
   | 'attrib' 
   | 'important' 
-  | 'annotation'
+  |'annotation'
 ;
 /* =============================================================  */

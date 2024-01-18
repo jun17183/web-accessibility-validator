@@ -10,9 +10,10 @@ export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) 
   const isHTMLNode = (node: ParsedCode): node is HTMLNode => {
     if (!node) return false;
     const values = Object.values(node);
-    return (values.length > 0 &&
+
+    return (values.length > 0 && (
       values[0].type === 'Element' || values[0].type === 'Text' || values[0].type === 'ProcessingInstruction'
-    );
+    ));
   }
 
   const isCSSNode = (node: ParsedCode): node is CSSNode => {
