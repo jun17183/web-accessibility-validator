@@ -14,7 +14,7 @@ export interface Text extends HTMLType {
 
 export interface Element extends HTMLType {
   name: string;
-  attribs: Object;
+  attribs: { [name: string]: string };
   children?: HTMLNode;
 }
 
@@ -25,15 +25,55 @@ export interface ProcessingInstruction extends HTMLType {
 
 export interface HTMLType {
   type: 'Element' | 'Text' | 'ProcessingInstruction'
-  suggestion?: {
-    code: HTMLNode;
-    description: string;
-  }
+  suggestion?: HTMLSuggestion
 }
+
+type HeadTag = '' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 export interface HTMLNode {
   [key: string]: Element | Text | ProcessingInstruction;
 };
+
+export class HTMLSuggestion {
+  private node: HTMLType;
+  private description: string[];
+  private headTag: HeadTag;
+  
+  constructor(node: HTMLType) {
+    this.node = node;
+    this.description = [];
+    this.headTag = '';
+  }
+
+  hasProblem() {
+    return this.description.length > 0 ? true : false;
+  }
+
+  set(node: HTMLType, description: string[]) {
+    this.node = node;
+    this.description = [...this.description, ...description];
+  }
+
+  getNode(): HTMLType {
+    return this.node;
+  }
+
+  getDescription(): string[] {
+    return this.description;
+  }
+
+  addDescription(description: string) {
+    this.description.push(description);
+  }
+
+  getHead() {
+    return this.headTag;
+  }
+
+  setHead(headTag: HeadTag) {
+    this.headTag = headTag;
+  }
+}
 /* ============================================================  */
 
 
@@ -43,8 +83,8 @@ export interface CSSNodeValue {
   type: string;
   value: CSSNode | string;
   suggestion?: {
-    code: CSSNodeValue;
-    description: string;
+    node: CSSNodeValue;
+    description: string[];
   }
 }
 

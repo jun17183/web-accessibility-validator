@@ -14,6 +14,7 @@ import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
+import { HTMLValidator } from 'validator/html';
 
 export default function Left() {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ export default function Left() {
           alert(error);
         } else {
           const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
+          HTMLValidator(parsedHtmlCode);
           dispatch(setParsedCode(parsedHtmlCode));
         }
       });

@@ -1,11 +1,32 @@
 import { ReactNode } from 'react';
-import { HTMLNode, HTMLType, Text, Element } from 'utils/types';
+import { useDispatch } from 'react-redux';
+import { setDescription, setSelectedCode } from 'reducers/codeSlice';
+import { HTMLNode, HTMLType, Text, Element, HTMLSuggestion } from 'utils/types';
 
-const OpeningTag = ({ name }: { name: string }) => {
+const useDispatchSuggestion = (suggestion: HTMLSuggestion | undefined ) => {
+  const dispatch = useDispatch();
+
+  const dispatchSuggestion = () => {
+    if (suggestion) {
+      dispatch(setSelectedCode(suggestion.getNode));
+      dispatch(setDescription(suggestion.getDescription()));
+    }
+  }
+  return dispatchSuggestion;
+}
+
+const OpeningTag = ({ name, suggestion }: { name: string, suggestion: HTMLSuggestion | undefined }) => {
+  const dispatchSuggestion = useDispatchSuggestion(suggestion);
+
   return (
     <>
       <span className='lt-gt'>{`<`}</span>
-      <span className='tag-name'>{`${name}`}</span>
+      <span 
+        className={`tag-name${(suggestion && !suggestion.hasProblem) ? ' suggestion' : ''}`}
+        onClick={dispatchSuggestion}
+      >
+        {`${name}`}
+      </span>
     </>
   );
 }
@@ -53,18 +74,27 @@ const DOCTYPE = () => {
   );
 }
 
-const TextNode = ({ data }: { data: string }) => {
-  return <span className='text'>{data}</span>
+const TextNode = ({ data, suggestion }: { data: string, suggestion: HTMLSuggestion | undefined}) => {
+  const dispatchSuggestion = useDispatchSuggestion(suggestion);
+
+  return (
+    <span 
+      className={`text${(suggestion && !suggestion.hasProblem) ? ' suggestion' : ''}`}
+      onClick={dispatchSuggestion}
+    >
+      {data}
+    </span>
+  );
 }
 
-const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attribs: Object, children?: HTMLNode, tabStack: number }) => {
+const ElementNode = ({ name, attribs, children, tabStack, suggestion }: { name: string, attribs: Object, children?: HTMLNode, tabStack: number, suggestion: HTMLSuggestion | undefined }) => {
   const MyTab = <span>{'\u00A0\u00A0'.repeat(tabStack - 1)}</span>;
   const ChildrenTab = <span>{'\u00A0\u00A0'.repeat(name !== 'html' ? tabStack++ : tabStack - 1)}</span>;
   let hasTag = false;
 
   return (
     <>
-      <OpeningTag name={name} />
+      <OpeningTag name={name} suggestion={suggestion} />
       <Attribs attribs={attribs} />
       {children && (
         <>
@@ -85,13 +115,12 @@ const ElementNode = ({ name, attribs, children, tabStack }: { name: string, attr
 }
 
 const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
-  console.log(item)
   if (item.type === 'ProcessingInstruction') {
     return <DOCTYPE />
   }
   
   if (item.type === 'Text') {
-    return <TextNode data={(item as Text).data} />
+    return <TextNode data={(item as Text).data} suggestion={item.suggestion} />
   }
 
   if (item.type === 'Element') {
@@ -101,6 +130,7 @@ const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
         attribs={(item as Element).attribs} 
         children={(item as Element)?.children} 
         tabStack={tabStack} 
+        suggestion={item?.suggestion}
       />
     );
   }

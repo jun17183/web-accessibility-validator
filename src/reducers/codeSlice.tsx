@@ -7,7 +7,7 @@ const codeSlice = createSlice({
     code: '',
     parsedCode: null,
     selectedCode: null,
-    description: '',
+    description: [],
   },
   reducers: {
     setLanguage: (state, action) => {

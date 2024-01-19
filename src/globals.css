@@ -16,23 +16,27 @@
 
 /* =================== highlighter =================== */
 .lt-gt {
-  @apply text-gray-500
+  @apply text-gray-500;
 }
 
 .tag-name {
-  @apply text-blue-500
+  @apply text-blue-500;
 }
 
 .text {
-  @apply text-white
+  @apply text-white;
 }
 
 .attribs-key {
-  @apply text-sky-400
+  @apply text-sky-400;
 }
 
 .attribs-value {
-  @apply text-orange-500
+  @apply text-orange-500;
+}
+
+.suggestion {
+  @apply bg-zinc-50 text-black font-bold underline cursor-pointer;
 }
 /* =================================================== */
 
