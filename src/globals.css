@@ -36,7 +36,13 @@
 }
 
 .suggestion {
-  @apply bg-zinc-50 text-black font-bold underline cursor-pointer;
+  @apply bg-crowd-flower text-black font-bold underline cursor-pointer;
+}
+
+.discription {
+  @apply text-white;
+  text-indent: -1em;
+  margin-left: 1em;
 }
 /* =================================================== */
 

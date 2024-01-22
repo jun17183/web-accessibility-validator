@@ -20,6 +20,7 @@ module.exports = {
         'light-gold': '#fddc5c',
         'pink': '#ff8fc5',
         'grass': '#9aff90',
+        'crowd-flower': '#0efcfe',
       }
     },
   },

@@ -23,9 +23,11 @@ export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) 
 
   useEffect(() => {
     if (isHTMLNode(parsedCode)) {
+      console.log('html')
       const highlightedHTML = HTMLHighlighter(parsedCode);
       setHighlightedCode(highlightedHTML);
     } else if (isCSSNode(parsedCode)) {
+      console.log('css')
       const highlightedCSS = CSSHighlighter(parsedCode);
       setHighlightedCode(highlightedCSS);
     } else {

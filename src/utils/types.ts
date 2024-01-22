@@ -28,34 +28,39 @@ export interface HTMLType {
   suggestion?: HTMLSuggestion
 }
 
-type HeadTag = '' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-
 export interface HTMLNode {
   [key: string]: Element | Text | ProcessingInstruction;
 };
 
 export class HTMLSuggestion {
   private node: HTMLType;
+  private suggestionNode: HTMLType;
   private description: string[];
-  private headTag: HeadTag;
   
   constructor(node: HTMLType) {
     this.node = node;
+    this.suggestionNode = JSON.parse(JSON.stringify(node));
     this.description = [];
-    this.headTag = '';
   }
 
   hasProblem() {
     return this.description.length > 0 ? true : false;
   }
 
-  set(node: HTMLType, description: string[]) {
-    this.node = node;
-    this.description = [...this.description, ...description];
+  getSuggestion() {
+    return {
+      node: this.node,
+      suggestionNode: this.suggestionNode,
+      description: this.description,
+    }
   }
 
   getNode(): HTMLType {
     return this.node;
+  }
+
+  getSuggestionNode(): HTMLType {
+    return this.suggestionNode;
   }
 
   getDescription(): string[] {
@@ -64,14 +69,6 @@ export class HTMLSuggestion {
 
   addDescription(description: string) {
     this.description.push(description);
-  }
-
-  getHead() {
-    return this.headTag;
-  }
-
-  setHead(headTag: HeadTag) {
-    this.headTag = headTag;
   }
 }
 /* ============================================================  */

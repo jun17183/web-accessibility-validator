@@ -8,7 +8,7 @@ const useDispatchSuggestion = (suggestion: HTMLSuggestion | undefined ) => {
 
   const dispatchSuggestion = () => {
     if (suggestion) {
-      dispatch(setSelectedCode(suggestion.getNode));
+      dispatch(setSelectedCode({ node_1: suggestion.getSuggestionNode()}));
       dispatch(setDescription(suggestion.getDescription()));
     }
   }
@@ -22,7 +22,7 @@ const OpeningTag = ({ name, suggestion }: { name: string, suggestion: HTMLSugges
     <>
       <span className='lt-gt'>{`<`}</span>
       <span 
-        className={`tag-name${(suggestion && !suggestion.hasProblem) ? ' suggestion' : ''}`}
+        className={`tag-name${(suggestion && suggestion.hasProblem()) ? ' suggestion' : ''}`}
         onClick={dispatchSuggestion}
       >
         {`${name}`}
@@ -51,9 +51,9 @@ const Attribs = ({ attribs }: { attribs: Object }) => {
             <span key={i}>
               <span className='attribs-key'>{` ${key}`}</span>{/* 태그 네임에서 한 칸 띄우고 key */}
               <span className='text'>=</span>
-              {i === 0 && <span className='attribs-value'>'</span>}{/* 첫번째 속성 => ' */}
+              <span className='attribs-value'>"</span>
               <span className='attribs-value'>{`${value}`}</span>
-              {<span className='attribs-value'>{i === attribsArr.length - 1 ? `'` : ` `}</span>}{/* 마지막 속성 => ' , 아니면 띄워쓰기 */}
+              <span className='attribs-value'>"</span>
             </span>
           );
         })
@@ -79,7 +79,7 @@ const TextNode = ({ data, suggestion }: { data: string, suggestion: HTMLSuggesti
 
   return (
     <span 
-      className={`text${(suggestion && !suggestion.hasProblem) ? ' suggestion' : ''}`}
+      className={`text${(suggestion && suggestion.hasProblem()) ? ' suggestion' : ''}`}
       onClick={dispatchSuggestion}
     >
       {data}

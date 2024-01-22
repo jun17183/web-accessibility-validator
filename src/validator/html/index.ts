@@ -1,5 +1,13 @@
-import { Element, HTMLNode, HTMLSuggestion, HTMLType, ProcessingInstruction, Text } from 'utils/types';
+import { Element, HTMLNode, HTMLSuggestion, HTMLType, Text } from 'utils/types';
+import { isElement, isText } from 'utils/util';
 import { imgValidator } from 'validator/html/img';
+import { aValidator } from 'validator/html/a';
+import { tableValidator } from 'validator/html/table';
+import { videoAndAudioValidator } from 'validator/html/videoAndAudio';
+import { xssValidator } from 'validator/html/xss';
+import { htmlValidator } from 'validator/html/html';
+import { headValidator } from 'validator/html/head';
+import { frameValidator } from 'validator/html/frame';
 
 export const HTMLValidator = (parsedHTMLCode: HTMLNode): HTMLNode => {                                                       
   Object.values(parsedHTMLCode).forEach(node => {
@@ -9,10 +17,6 @@ export const HTMLValidator = (parsedHTMLCode: HTMLNode): HTMLNode => {
   return parsedHTMLCode;
 }
 
-const isText = (node: HTMLType): node is Text => node.type === 'Text';
-const isElement = (node: HTMLType): node is Element => node.type === 'Element';
-const isProcessingInstruction = (node: HTMLType): node is ProcessingInstruction => node.type === 'ProcessingInstruction';
-
 const getSuggestion = (node: HTMLType): HTMLSuggestion => {
   if (node.suggestion !== undefined) return node.suggestion;
   const suggestion = new HTMLSuggestion(node);
@@ -21,15 +25,24 @@ const getSuggestion = (node: HTMLType): HTMLSuggestion => {
 }
 
 const TextValidator = (node: Text) => {
-  // 스크립트(xss) 검사 추가
+  const suggestion = getSuggestion(node);
+
+  xssValidator(suggestion);
 }
 
 const ElementValidator = (node: Element) => {
   const suggestion = getSuggestion(node);
   
+  htmlValidator(suggestion);
+  headValidator(suggestion);
+  aValidator(suggestion);
+  tableValidator(suggestion);
   imgValidator(suggestion);
+  videoAndAudioValidator(suggestion);
+  frameValidator(suggestion);
 
   if (node.children !== undefined) {
     HTMLValidator(node.children);
   }
 }
+
