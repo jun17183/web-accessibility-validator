@@ -119,5 +119,3 @@ const getRecommendColor = (color1: string, color2: string) => {
   }
   return color2;
 }
-
-

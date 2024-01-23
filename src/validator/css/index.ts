@@ -1,5 +1,6 @@
 import { CSSNode, CSSNodeValue, CSSSuggestion } from 'utils/types';
 import { colorValidator } from './color';
+import { textValidator } from './text';
 
 export const CSSValidator = (parsedCSSCode: CSSNode): CSSNode => {
   if (!parsedCSSCode) return parsedCSSCode;
@@ -11,6 +12,7 @@ export const CSSValidator = (parsedCSSCode: CSSNode): CSSNode => {
     const suggestion = getSuggestion(node);
 
     colorValidator(suggestion);
+    textValidator(suggestion);
   });
   return parsedCSSCode;
 }
