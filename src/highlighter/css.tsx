@@ -1,5 +1,7 @@
-import { ReactNode } from 'react';
-import { AttribValueType, CSSNode, SelectorType } from 'utils/types';
+import { ReactNode, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setDescription, setSelectedCode } from 'reducers/codeSlice';
+import { AttribValueType, CSSNode, CSSNodeValue, CSSSuggestion, SelectorType } from 'utils/types';
 
 const getHighlightedSeletor = (selector: string): ReactNode[] => {
   const color: Record<SelectorType, string> = {
@@ -10,7 +12,7 @@ const getHighlightedSeletor = (selector: string): ReactNode[] => {
     'idAndClass': 'text-light-gold',
     'element': 'text-blue-400',
     'combinator': 'text-white',
-    'annotation': 'text-pink'
+    'annotation': 'text-pink',
   }
 
   const reg = /(\>|#|,|\[|\]|\(|\)|\.|\+|~|\||=|:|::|\s|[^\s\>\#\,\[\]\(\)\.\+\~\|\=::]+)/g;
@@ -136,43 +138,42 @@ const getHighlightedAttributes = (attributes: CSSNode): ReactNode[] => {
   return highlightedAttributed;
 }
 
-export default function CSSHighlighter(parsedCSSObj: CSSNode): ReactNode {
-  Object.values(parsedCSSObj).map((item, i) => {
-    if (typeof item === 'string') {
-      return <div key={i}>{item}</div>
-    } else {
-      const selector = item.name;
-      const attributes = item.value;
+const useDispatchSuggestion = () => {
+  const dispatch = useDispatch();
 
-      if (typeof attributes === 'string') {
+  const dispatchSuggestion = (suggestion: CSSSuggestion | undefined ) => {
+    if (suggestion) {
+      dispatch(setSelectedCode({ node_1: suggestion.getSuggestionNode()}));
+      dispatch(setDescription(suggestion.getDescription()));
+    }
+  }
+  return dispatchSuggestion;
+}
+
+export default function CSSHighlighter(parsedCSSObj: CSSNode): ReactNode {
+  const _CSSHighlighter = ({ parsedCSSObj }: { parsedCSSObj: CSSNode }) => {
+    const dispatchSuggestion = useDispatchSuggestion();
+
+    return <>{
+      Object.values(parsedCSSObj).map((rule, i) => {
+        rule = rule as CSSNodeValue;
+        const hasProblem = rule.suggestion && rule.suggestion.hasProblem();
+  
         return (
           <div key={i}>
-            <span className='text-green-700'>{attributes}</span>
+            <span 
+              className={`${hasProblem ? 'suggestion' : ''}`}
+              onClick={hasProblem ? () => dispatchSuggestion((rule as CSSNodeValue).suggestion) : undefined}
+            >
+              {getHighlightedSeletor(rule.name)}
+            </span>
+            {` `}<span className='text-gold'>{`{`}</span>
+            {getHighlightedAttributes(rule.value as CSSNode)}
+            <span className='text-gold'>{`}`}</span>
           </div>
         );
-      }
-
-      return (
-        <div key={i}>
-        {getHighlightedSeletor(selector)}
-        {` `}<span className='text-gold'>{`{`}</span>
-        {getHighlightedAttributes(attributes)}
-        <span className='text-gold'>{`}`}</span>
-      </div>
-    );
+      })
+    }</>
   }
-  });
-
-  return (
-    Object.entries(parsedCSSObj.children).map(([selector, children], i) => {
-      return (
-        <div key={i}>
-          {getHighlightedSeletor(selector)}
-          {` `}<span className='text-gold'>{`{`}</span>
-          {getHighlightedAttributes(children.attributes)}
-          <span className='text-gold'>{`}`}</span>
-        </div>
-      );
-    })
-  );
+  return <_CSSHighlighter parsedCSSObj={parsedCSSObj} />
 }

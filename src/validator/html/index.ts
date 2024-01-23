@@ -26,13 +26,11 @@ const getSuggestion = (node: HTMLType): HTMLSuggestion => {
 
 const TextValidator = (node: Text) => {
   const suggestion = getSuggestion(node);
-
   xssValidator(suggestion);
 }
 
 const ElementValidator = (node: Element) => {
   const suggestion = getSuggestion(node);
-  
   htmlValidator(suggestion);
   headValidator(suggestion);
   aValidator(suggestion);

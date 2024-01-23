@@ -29,6 +29,7 @@ export default function Uploader() {
         const fileContent = e.target?.result;
 
         if (typeof fileContent === 'string' && typeof file?.name === 'string') {
+          console.log(file.type)
           setFileNm(file.name);
           setFileType(file.type.split("/")[1]);
           setFileContent(fileContent);

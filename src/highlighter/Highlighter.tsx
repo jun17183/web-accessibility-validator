@@ -18,21 +18,27 @@ export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) 
 
   const isCSSNode = (node: ParsedCode): node is CSSNode => {
     if (!node) return false;
-    return 'name' in node || 'type' in node || 'value' in node;
+    const values = Object.values(node);
+    if (values.length < 1) return false;    
+
+    return 'name' in values[0] || 'type' in values[0] || 'value' in values[0];
   }
 
   useEffect(() => {
-    if (isHTMLNode(parsedCode)) {
-      console.log('html')
-      const highlightedHTML = HTMLHighlighter(parsedCode);
-      setHighlightedCode(highlightedHTML);
-    } else if (isCSSNode(parsedCode)) {
-      console.log('css')
-      const highlightedCSS = CSSHighlighter(parsedCode);
-      setHighlightedCode(highlightedCSS);
-    } else {
-      console.log('hi')
-      setHighlightedCode('Your source is empty.');
+    try {
+      if (isHTMLNode(parsedCode)) {
+        const highlightedHTML = HTMLHighlighter(parsedCode);
+        setHighlightedCode(highlightedHTML);
+      } else if (isCSSNode(parsedCode)) {
+        console.log(parsedCode)
+        const highlightedCSS = CSSHighlighter(parsedCode);
+        setHighlightedCode(highlightedCSS);
+      } else {
+        setHighlightedCode(<div className='flex justify-center items-center h-full text-3xl text-white'>Your source is empty.</div>);
+      }
+    } catch (e) {
+      console.log(e);
+      setHighlightedCode(<div className='flex justify-center items-center h-full text-3xl text-white'>Your source has a problem.</div>);
     }
   }, [parsedCode]);
 

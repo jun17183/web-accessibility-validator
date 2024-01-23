@@ -15,6 +15,7 @@ import BoxTitle from 'components/result/BoxTitle';
 import CodeBlock from './CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
 import { HTMLValidator } from 'validator/html';
+import { CSSValidator } from 'validator/css';
 
 export default function Left() {
   const dispatch = useDispatch();
@@ -67,23 +68,28 @@ export default function Left() {
 
   // css도 exception 추가. 에러나는 css 파일 올리면 무한로딩 걸림
   useEffect(() => {
-    if (language === 'html') {
-      const handler = new DomHandler((error, result) => {
-        if (error) {
-          alert(error);
-        } else {
-          const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
-          HTMLValidator(parsedHtmlCode);
-          dispatch(setParsedCode(parsedHtmlCode));
-        }
-      });
-      const parser = new Parser(handler);
-      parser.write(code);
-      parser.end();
+    try {
+      if (language === 'html') {
+        const handler = new DomHandler((error, result) => {
+          if (error) {
+            alert(error);
+          } else {
+            const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
+            HTMLValidator(parsedHtmlCode);
+            dispatch(setParsedCode(parsedHtmlCode));
+          }
+        });
+        const parser = new Parser(handler);
+        parser.write(code);
+        parser.end();
 
-    } else if (language === 'css') {
-      const parsedCSSCode = cssToJson(code); 
-      dispatch(setParsedCode(parsedCSSCode));
+      } else if (language === 'css') {
+        const parsedCSSCode = cssToJson(code);
+        CSSValidator(parsedCSSCode);
+        dispatch(setParsedCode(parsedCSSCode));
+      }
+    } catch (e) {
+      console.log(e);
     }
   }, [code]);
 

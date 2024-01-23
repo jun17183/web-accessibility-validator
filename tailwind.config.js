@@ -18,7 +18,7 @@ module.exports = {
         'gold': '#ffdf00',
         'sunglow': '#ffcc33',
         'light-gold': '#fddc5c',
-        'pink': '#ff8fc5',
+        'pink': '#ff3b99',
         'grass': '#9aff90',
         'crowd-flower': '#0efcfe',
       }

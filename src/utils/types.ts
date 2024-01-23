@@ -79,10 +79,7 @@ export interface CSSNodeValue {
   name: string; 
   type: string;
   value: CSSNode | string;
-  suggestion?: {
-    node: CSSNodeValue;
-    description: string[];
-  }
+  suggestion?: CSSSuggestion;
 }
 
 export interface CSSNode {
@@ -107,4 +104,48 @@ export type AttribValueType =
   | 'important' 
   |'annotation'
 ;
+
+export class CSSSuggestion {
+  private node: CSSNodeValue;
+  private suggestionNode: CSSNodeValue;
+  private description: string[];
+  
+  constructor(node: CSSNodeValue) {
+    this.node = node;
+    this.suggestionNode = {
+      name: node.name,
+      type: node.type,
+      value: {}
+    };
+    this.description = [];
+  }
+
+  hasProblem() {
+    return this.description.length > 0 ? true : false;
+  }
+
+  getSuggestion() {
+    return {
+      node: this.node,
+      suggestionNode: this.suggestionNode,
+      description: this.description,
+    }
+  }
+
+  getNode(): CSSNodeValue {
+    return this.node;
+  }
+
+  getSuggestionNode(): CSSNodeValue {
+    return this.suggestionNode;
+  }
+
+  getDescription(): string[] {
+    return this.description;
+  }
+
+  addDescription(description: string) {
+    this.description.push(description);
+  }
+}
 /* =============================================================  */

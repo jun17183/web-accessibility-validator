@@ -139,6 +139,5 @@ const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
 }
 
 export default function HTMLHighlighter(parsedHtmlDom: HTMLNode): ReactNode {
-  console.log(parsedHtmlDom)
   return Object.values(parsedHtmlDom).map((item, i) => <span key={i}>{getHighlightedNode(item)}</span>);
 }
