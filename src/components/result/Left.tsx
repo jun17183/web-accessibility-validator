@@ -85,10 +85,20 @@ export default function Left() {
 
       } else if (language === 'css') {
         const parsedCSSCode = cssToJson(code);
+
+        if (parsedCSSCode['result'] === 'syntax error') {
+          throw 'syntax error';
+        }
+
         CSSValidator(parsedCSSCode);
         dispatch(setParsedCode(parsedCSSCode));
       }
     } catch (e) {
+      if (e === 'syntax error') { 
+        alert('Invalid syntax detected in the file. Please correct it and try again.'); 
+      } else {
+        alert('An unknown problem has occurred.');
+      }
       console.log(e);
     }
   }, [code]);

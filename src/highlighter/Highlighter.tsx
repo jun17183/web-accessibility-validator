@@ -4,6 +4,9 @@ import HTMLHighlighter from 'highlighter/html';
 import CSSHighlighter from 'highlighter/css';
 import { CSSNode, HTMLNode, ParsedCode } from 'utils/types';
 
+const SourceIsEmpty = () => <div className='flex justify-center items-center h-full text-3xl text-white'>Your source is empty.</div>
+const SourceHasProblem = () => <div className='flex justify-center items-center h-full text-3xl text-white'>Your source has a problem.</div>
+
 export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) {
   const [highlightedCode, setHighlightedCode] = useState<ReactNode>('');
 
@@ -34,17 +37,17 @@ export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) 
         const highlightedCSS = CSSHighlighter(parsedCode);
         setHighlightedCode(highlightedCSS);
       } else {
-        setHighlightedCode(<div className='flex justify-center items-center h-full text-3xl text-white'>Your source is empty.</div>);
+        setHighlightedCode(<SourceIsEmpty />);
       }
     } catch (e) {
       console.log(e);
-      setHighlightedCode(<div className='flex justify-center items-center h-full text-3xl text-white'>Your source has a problem.</div>);
+      setHighlightedCode(<SourceHasProblem />);
     }
   }, [parsedCode]);
 
   return (
     <>
-      {highlightedCode}
+      {highlightedCode ? highlightedCode : <SourceIsEmpty />}
     </>
   );
 }

@@ -26,18 +26,18 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
         <p className='my-3'>Here are the inspection items available:</p>
         <h3 className='text-xl font-bold mt-7 mb-3'>HTML</h3>
         <ul className='mb-7'>
-            <li>- Check for the presence of the 'lang' attribute in the &lt;html&gt; tag</li>
-            <li>- Check for the existence of &lt;meta name="viewport"&gt;</li>
-            <li>- Check for the 'alt', 'src' attributes in the &lt;img&gt; tag</li>
-            <li>- Check for the 'title' attribute in the &lt;frame&gt;, &lt;iframe&gt; tags</li>
-            <li>- Check if 'autoplay' is used in the &lt;video&gt;, &lt;audio&gt; tags</li>
-            <li>- Check for the use of the &lt;trac&gt; tag in &lt;video&gt;, &lt;audio&gt; tags</li>
-            <li>- Simple XSS attack check</li>
+          <li>- Check for the presence of the 'lang' attribute in the &lt;html&gt; tag</li>
+          <li>- Check for the existence of &lt;meta name="viewport"&gt;</li>
+          <li>- Check for the 'alt', 'src' attributes in the &lt;img&gt; tag</li>
+          <li>- Check for the 'title' attribute in the &lt;frame&gt;, &lt;iframe&gt; tags</li>
+          <li>- Check if 'autoplay' is used in the &lt;video&gt;, &lt;audio&gt; tags</li>
+          <li>- Check for the use of the &lt;trac&gt; tag in &lt;video&gt;, &lt;audio&gt; tags</li>
+          <li>- Simple XSS attack check</li>
         </ul>
         <h3 className='text-xl font-bold my-3'>CSS</h3>
         <ul>
-            <li>- Contrast check for background, border, and text (only one element is inspected)</li>
-            <li>- Check for the use of 'px' in 'font-size', 'line-height', 'word-spacing', 'letter-spacing'</li>
+          <li>- Contrast check for background, border, and text (only one element is inspected)</li>
+          <li>- Check for the use of 'px' in 'font-size', 'line-height', 'word-spacing', 'letter-spacing'</li>
         </ul>
       </div>
     </div>

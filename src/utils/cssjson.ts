@@ -29,6 +29,9 @@ let capSelector = 2;
 let capEnd = 3;
 let capAttr = 4;
 
+let openBraces = 0;  // 열린 중괄호 `{`의 개수
+let closeBraces = 0;  // 닫힌 중괄호 `}`의 개수
+
 function isEmpty (x: any) {
   return typeof x === 'undefined' || x.length === 0 || x === null;
 };
@@ -58,6 +61,19 @@ export function cssToJson(cssString: string, args: Args = { ordered: true, comme
   }
 
   while ((match = altX.exec(cssString)) != null) {
+    if (!isEmpty(match[capSelector])) {
+    // 새로운 CSS 규칙의 시작을 발견했습니다
+    openBraces++;
+
+      if (openBraces >= 2) {
+        console.error('Syntax error: Unexpected start of CSS rule');
+        return { result: 'syntax error' }
+        break;
+      }
+    } else if (!isEmpty(match[capEnd])) {
+      openBraces = 0;
+    }
+
     if (!isEmpty(match[capComment]) && args.comments) {
       // Comment
       let add = trim(match[capComment]);

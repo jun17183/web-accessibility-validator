@@ -10,34 +10,37 @@ export default function Uploader() {
   const navigate = useNavigate();
 
   const uploadFile = () => {
-    console.log('upload file')
     fileInput.current?.click();
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0);
 
-    if (file) {
-      if (file.type !== 'text/html' && file.type !== 'text/css') {
-        alert('Only one .html or .css file can be uploaded.');
-        return;
-      }
-
-      const fr = new FileReader();
-
-      fr.onload = (e) => {
-        const fileContent = e.target?.result;
-
-        if (typeof fileContent === 'string' && typeof file?.name === 'string') {
-          console.log(file.type)
-          setFileNm(file.name);
-          setFileType(file.type.split("/")[1]);
-          setFileContent(fileContent);
+    try {
+      if (file) {
+        if (file.type !== 'text/html' && file.type !== 'text/css') {
+          alert('Only one .html or .css file can be uploaded.');
+          e.target.value = '';  // 파일 선택 초기화
+          return;
         }
+
+        const fr = new FileReader();
+
+        fr.onload = (e) => {
+          const fileContent = e.target?.result;
+
+          if (typeof fileContent === 'string' && typeof file?.name === 'string') {
+            console.log(file.type)
+            setFileNm(file.name);
+            setFileType(file.type.split("/")[1]);
+            setFileContent(fileContent);
+          }
+        }
+        fr.readAsText(file);
+      } else {
+        alert('File upload failed');
       }
-      fr.readAsText(file);
-    } else {
-      // 취소 시에도 해당 alert 노출됨. 수정 필요 : fixme
+    } catch (e) {
       alert('File upload failed');
     }
   }
