@@ -6,7 +6,7 @@ interface BoxProps {
 
 export default function Box({ children }: BoxProps) {
   return (
-    <div className='flex flex-col w-6/12 h-full p-5 overflow-hidden bg-white rounded-lg shadow-md shadow-slate-200'>
+    <div className='flex flex-col lg:w-6/12 h-full p-5 overflow-hidden bg-white rounded-lg shadow-md shadow-slate-200'>
       {children}
     </div>
   );

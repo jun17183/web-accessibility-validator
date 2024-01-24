@@ -51,7 +51,7 @@
 
 
 /* ==================== scrollbar ==================== */
-.code-block::-webkit-scrollbar {
+::-webkit-scrollbar {
   height: 12px;
   width: 12px;
 }
@@ -67,6 +67,21 @@
 }
 
 .code-block::-webkit-scrollbar-corner {
+  background-color: rgb(31, 31, 31);
+  border-radius: 5px;
+}
+
+.result-page::-webkit-scrollbar-track {
+  @apply bg-gray-50;
+  border-radius: 5px;
+}
+
+.result-page::-webkit-scrollbar-thumb {
+  background-color: rgb(160, 160, 160, 0.4);
+  border-radius: 5px;
+}
+
+.result-page::-webkit-scrollbar-corner {
   background-color: rgb(31, 31, 31);
   border-radius: 5px;
 }
