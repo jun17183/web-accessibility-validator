@@ -23,22 +23,22 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
           <span>About this Site</span>
           <button className='float-right' onClick={onClose}><IoClose /></button>
         </div>
-        <p>This site is a simple web accessibility inspection site, where you can upload HTML or CSS files and it inspects the web accessibility based on the uploaded code. It doesn't provide a comprehensive web accessibility inspection, but only a few items.</p>
+        <p>This site is a simple web accessibility inspection site, where you can upload <strong>a HTML or CSS file</strong> and it inspects the web accessibility based on the uploaded code. It doesn't provide a comprehensive web accessibility inspection, but only a few items.</p>
         <p className='my-3'>Here are the inspection items available:</p>
         <h3 className='text-xl font-bold mt-7 mb-3'>HTML</h3>
         <ul className='mb-7 ul'>
-          <li>- Check for the presence of the 'lang' attribute in the &lt;html&gt; tag</li>
-          <li>- Check for the existence of &lt;meta name="viewport"&gt;</li>
-          <li>- Check for the 'alt', 'src' attributes in the &lt;img&gt; tag</li>
-          <li>- Check for the 'title' attribute in the &lt;frame&gt;, &lt;iframe&gt; tags</li>
-          <li>- Check if 'autoplay' is used in the &lt;video&gt;, &lt;audio&gt; tags</li>
-          <li>- Check for the use of the &lt;trac&gt; tag in &lt;video&gt;, &lt;audio&gt; tags</li>
-          <li>- Simple XSS attack check</li>
+          <li>- Check for the presence of the <strong>'lang'</strong> attribute in the <strong>&lt;html&gt;</strong> tag</li>
+          <li>- Check for the existence of <strong>&lt;meta name="viewport"&gt;</strong></li>
+          <li>- Check for the <strong>'alt', 'src'</strong> attributes in the <strong>&lt;img&gt;</strong> tag</li>
+          <li>- Check for the <strong>'title'</strong> attribute in the <strong>&lt;frame&gt;, &lt;iframe&gt;</strong> tags</li>
+          <li>- Check if <strong>'autoplay'</strong> is used in the <strong>&lt;video&gt;, &lt;audio&gt;</strong> tags</li>
+          <li>- Check for the use of the <strong>&lt;track&gt;</strong> tag in <strong>&lt;video&gt;, &lt;audio&gt;</strong> tags</li>
+          <li>- Simple <strong>XSS</strong> attack check</li>
         </ul>
         <h3 className='text-xl font-bold my-3'>CSS</h3>
         <ul className='ul'>
-          <li>- Contrast check for background, border, and text (only one element is inspected)</li>
-          <li>- Check for the use of 'px' in 'font-size', 'line-height', 'word-spacing', 'letter-spacing'</li>
+          <li>- Contrast check for <strong>background, border, and text</strong> (only one element is inspected)</li>
+          <li>- Check for the use of <strong>'px'</strong> in <strong>'font-size', 'line-height', 'word-spacing', 'letter-spacing'</strong></li>
         </ul>
       </div>
     </div>
