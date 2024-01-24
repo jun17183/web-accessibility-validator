@@ -87,13 +87,19 @@ const TextNode = ({ data, suggestion }: { data: string, suggestion: HTMLSuggesti
   );
 }
 
-const CommentNode = ({ data }: { data: string }) => {
+const CommentNode = ({ data, tabStack }: { data: string, tabStack: number }) => {
+  const MyTab = <span>{'\u00A0\u00A0'.repeat(tabStack - 1)}</span>;
+
   return (
-    <span 
-      className='text-green-600'
-    >
-      <br/>&lt;-- {data} --&gt;<br/>
-    </span>
+    <>
+      {MyTab}
+      <span 
+        className='text-green-600'
+      >
+        &lt;-- {data} --&gt;
+      </span>
+      <br/>
+    </>
   );
 }
 
@@ -134,7 +140,7 @@ const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
   }
 
   if (item.type === 'Comment') {
-    return <CommentNode data={(item as Comment).data} />
+    return <CommentNode data={(item as Comment).data} tabStack={tabStack} />
   }
 
   if (item.type === 'Element') {

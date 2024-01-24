@@ -13,9 +13,9 @@ export default function CodeBlock({ children }: CodeBlockProps) {
       h-full 
       bg-vscode-bg 
       rounded-md 
-      text-wrap 
       overflow-auto 
       box-border
+      text-nowrap
     `}>
       {children}
     </div>

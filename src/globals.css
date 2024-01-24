@@ -38,6 +38,7 @@
 .suggestion {
   @apply bg-crowd-flower text-black font-bold underline cursor-pointer;
 }
+
 .suggestion * {
   color: black !important;
 }
@@ -45,7 +46,6 @@
 .discription {
   @apply text-white;
   text-indent: -1em;
-  margin-left: 1em;
 }
 /* =================================================== */
 
