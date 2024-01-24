@@ -13,9 +13,7 @@ export default function Result() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(location.state)
-
-    if (!location.state || !location.state.fileType || location.state.fileContent) {
+    if (!location.state || !location.state.fileType || !location.state.fileContent) {
       alert(`Can't find a file`);
       navigate('/');
     } else {

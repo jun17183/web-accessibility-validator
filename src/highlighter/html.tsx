@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 import { setDescription, setSelectedCode } from 'reducers/codeSlice';
-import { HTMLNode, HTMLType, Text, Element, HTMLSuggestion } from 'utils/types';
+import { HTMLNode, HTMLType, Text, Element, HTMLSuggestion, Comment } from 'utils/types';
 
 const useDispatchSuggestion = (suggestion: HTMLSuggestion | undefined ) => {
   const dispatch = useDispatch();
@@ -87,6 +87,16 @@ const TextNode = ({ data, suggestion }: { data: string, suggestion: HTMLSuggesti
   );
 }
 
+const CommentNode = ({ data }: { data: string }) => {
+  return (
+    <span 
+      className='text-green-600'
+    >
+      <br/>&lt;-- {data} --&gt;<br/>
+    </span>
+  );
+}
+
 const ElementNode = ({ name, attribs, children, tabStack, suggestion }: { name: string, attribs: Object, children?: HTMLNode, tabStack: number, suggestion: HTMLSuggestion | undefined }) => {
   const MyTab = <span>{'\u00A0\u00A0'.repeat(tabStack - 1)}</span>;
   const ChildrenTab = <span>{'\u00A0\u00A0'.repeat(name !== 'html' ? tabStack++ : tabStack - 1)}</span>;
@@ -121,6 +131,10 @@ const getHighlightedNode = (item: HTMLType, tabStack: number = 1) => {
   
   if (item.type === 'Text') {
     return <TextNode data={(item as Text).data} suggestion={item.suggestion} />
+  }
+
+  if (item.type === 'Comment') {
+    return <CommentNode data={(item as Comment).data} />
   }
 
   if (item.type === 'Element') {

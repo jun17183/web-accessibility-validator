@@ -68,7 +68,6 @@ export function cssToJson(cssString: string, args: Args = { ordered: true, comme
       if (openBraces >= 2) {
         console.error('Syntax error: Unexpected start of CSS rule');
         return { result: 'syntax error' }
-        break;
       }
     } else if (!isEmpty(match[capEnd])) {
       openBraces = 0;

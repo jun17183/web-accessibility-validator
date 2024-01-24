@@ -5,10 +5,10 @@ import { RootState } from 'reducers/store';
 import { setParsedCode } from 'reducers/codeSlice';
 
 import { Parser } from 'htmlparser2';
-import { DomHandler, ChildNode, Text, isTag, isDirective } from 'domhandler';
+import { DomHandler, ChildNode, Text, isTag, isDirective, isComment } from 'domhandler';
 import { cssToJson } from 'utils/cssjson';
 
-import { HTMLNode, Element as CustomElement, Text as CustomText, ProcessingInstruction as CustomProcessingInstruction } from 'utils/types';
+import { HTMLNode, Element as CustomElement, Text as CustomText, ProcessingInstruction as CustomProcessingInstruction, Comment as CustomComment } from 'utils/types';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
@@ -24,7 +24,7 @@ export default function Left() {
   const parsedCode = useSelector((state: RootState) => state.codeReducer.parsedCode);
 
   const covertChildNodeToHtmlNode = (childNode: ChildNode | ChildNode[]): HTMLNode => {
-    const _covertChildNodeToHtmlNode = (childNode: ChildNode): CustomElement | CustomText | CustomProcessingInstruction => {
+    const _covertChildNodeToHtmlNode = (childNode: ChildNode): CustomElement | CustomText | CustomProcessingInstruction | CustomComment => {
       // Tag
       if (isTag(childNode)) {
         const element: CustomElement = {
@@ -45,6 +45,15 @@ export default function Left() {
           data: '!DOCTYPE html',
         }
         return processingInstruction;
+      }
+      // Comment
+      if (isComment(childNode)) {
+        const comment: CustomComment = {
+          type: 'Comment',
+          data: childNode.data,
+          comment: true,
+        }
+        return comment;
       }
       // Text
       const text: CustomText = {
@@ -74,6 +83,7 @@ export default function Left() {
           if (error) {
             alert(error);
           } else {
+            console.log(result);
             const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
             HTMLValidator(parsedHtmlCode);
             dispatch(setParsedCode(parsedHtmlCode));

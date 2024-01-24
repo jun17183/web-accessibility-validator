@@ -39,7 +39,7 @@ const ElementValidator = (node: Element) => {
   videoAndAudioValidator(suggestion);
   frameValidator(suggestion);
 
-  if (node.children !== undefined) {
+  if (node.children !== undefined && node.name !== 'script') {
     HTMLValidator(node.children);
   }
 }

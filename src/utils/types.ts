@@ -23,13 +23,18 @@ export interface ProcessingInstruction extends HTMLType {
   data: '!DOCTYPE html';
 }
 
+export interface Comment extends HTMLType {
+  data: string;
+  comment: true;
+}
+
 export interface HTMLType {
-  type: 'Element' | 'Text' | 'ProcessingInstruction'
+  type: 'Element' | 'Text' | 'ProcessingInstruction' | 'Comment'
   suggestion?: HTMLSuggestion
 }
 
 export interface HTMLNode {
-  [key: string]: Element | Text | ProcessingInstruction;
+  [key: string]: Element | Text | ProcessingInstruction | Comment;
 };
 
 export class HTMLSuggestion {
