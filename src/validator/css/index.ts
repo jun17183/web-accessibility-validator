@@ -1,6 +1,7 @@
 import { CSSNode, CSSNodeValue, CSSSuggestion } from 'utils/types';
 import { colorValidator } from './color';
 import { textValidator } from './text';
+import { setHasProblem } from 'reducers/codeSlice';
 
 export const CSSValidator = (parsedCSSCode: CSSNode): CSSNode => {
   if (!parsedCSSCode) return parsedCSSCode;
@@ -13,6 +14,10 @@ export const CSSValidator = (parsedCSSCode: CSSNode): CSSNode => {
 
     colorValidator(suggestion);
     textValidator(suggestion);
+
+    if (suggestion?.getDescription().length > 0) {
+      setHasProblem(true);
+    }
   });
   return parsedCSSCode;
 }

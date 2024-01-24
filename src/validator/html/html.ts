@@ -1,7 +1,6 @@
 import { Element, HTMLSuggestion } from 'utils/types'
 
 export const htmlValidator = (suggestion: HTMLSuggestion) => {
-  let hasProblem = false;
   const node = suggestion.getNode() as Element;
   const suggestionNode = suggestion.getSuggestionNode() as Element;
 
@@ -9,7 +8,6 @@ export const htmlValidator = (suggestion: HTMLSuggestion) => {
 
   // html 태그에 lang 속성이 존재하지 않는 경우
   if (!hasLang(node)) {
-    hasProblem = true;
     suggestionNode.attribs['lang'] = 'en';
     suggestionNode.children = undefined;
     suggestion.addDescription(`

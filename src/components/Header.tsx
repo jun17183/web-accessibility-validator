@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { FaGithub, FaInfoCircle } from "react-icons/fa";
 import { IoHomeSharp, IoClose } from "react-icons/io5";
 import { useState } from 'react';
+import { resetState } from 'reducers/codeSlice';
 
 interface ModalProps {
   show: boolean;
@@ -47,23 +48,19 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
 export default function Header() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
+  const homeClickEvent = () => resetState();
 
   return (
     <header className='flex flex-none items-center justify-between top-0 w-full px-6 py-4 bg-vscode-bg text-white'>
       <div>
-        <Link to='/'>
+        <Link to='/' onClick={homeClickEvent}>
           <span className='font-bold text-xl'>Web Accessibility Validator</span>
         </Link>
       </div>
       <nav className='flex gap-6'>
-        <Link to='/' className='flex items-center font-semibold text-xl'>
+        <Link to='/' className='flex items-center font-semibold text-xl' onClick={homeClickEvent}>
           <IoHomeSharp size={26} />
         </Link>
         <a

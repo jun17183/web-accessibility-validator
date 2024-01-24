@@ -8,11 +8,16 @@ import { xssValidator } from 'validator/html/xss';
 import { htmlValidator } from 'validator/html/html';
 import { headValidator } from 'validator/html/head';
 import { frameValidator } from 'validator/html/frame';
+import { setHasProblem } from 'reducers/codeSlice';
 
 export const HTMLValidator = (parsedHTMLCode: HTMLNode): HTMLNode => {                                                       
   Object.values(parsedHTMLCode).forEach(node => {
     if (isText(node)) TextValidator(node);
     if (isElement(node)) ElementValidator(node);
+
+    if (node.suggestion && node.suggestion?.getDescription().length > 0) {
+      setHasProblem(true);
+    }
   });
   return parsedHTMLCode;
 }

@@ -2,7 +2,6 @@ import { Element, HTMLNode, HTMLSuggestion } from 'utils/types'
 import { isElement } from 'utils/util';
 
 export const headValidator = (suggestion: HTMLSuggestion) => {
-  let hasProblem = false;
   const node = suggestion.getNode() as Element;
   const suggestionNode = suggestion.getSuggestionNode() as Element;
 
@@ -27,7 +26,6 @@ export const headValidator = (suggestion: HTMLSuggestion) => {
 
   // head 태그에 자식 태그가 없는 경우
   if (!hasChildNode(node)) {
-    hasProblem = true;
     suggestionNode.children = { 
       node_1: meta_UTF8,
       node_2: meta_viewport,
@@ -39,7 +37,6 @@ export const headValidator = (suggestion: HTMLSuggestion) => {
 
   // head 태그에 <meta name='viewport'>가 없는 경우
   if (!hasMetaViewport(node)) {
-    hasProblem = true;
     const children = suggestionNode.children as HTMLNode;
     const keys = Object.keys(children);
     const nodeNum = Number(keys[keys.length - 1].split("_")[1]) + 1;

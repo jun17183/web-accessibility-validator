@@ -1,7 +1,6 @@
 import { Element, HTMLSuggestion } from 'utils/types'
 
 export const tableValidator = (suggestion: HTMLSuggestion) => {
-  let hasProblem = false;
   const node = suggestion.getNode() as Element;
   const suggestionNode = suggestion.getSuggestionNode() as Element;
 
@@ -9,7 +8,6 @@ export const tableValidator = (suggestion: HTMLSuggestion) => {
 
   // table 태그에 caption이나 summary 속성이 존재하지 않는 경우
   if (!hasCaptionOrSummary(node)) {
-    hasProblem = true;
     suggestionNode.attribs['caption'] = 'my table';
     suggestion.addDescription(`
       The <table> tag should always include a 'caption' or 'summary' attribute.

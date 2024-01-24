@@ -2,7 +2,6 @@ import { Element, HTMLNode, HTMLSuggestion } from 'utils/types'
 import { isElement } from 'utils/util';
 
 export const videoAndAudioValidator = (suggestion: HTMLSuggestion) => {
-  let hasProblem = false;
   const node = suggestion.getNode() as Element;
   const suggestionNode = suggestion.getSuggestionNode() as Element;
 
@@ -32,7 +31,6 @@ export const videoAndAudioValidator = (suggestion: HTMLSuggestion) => {
 
   // video, audio 태그에 autoplay 속성이 존재하는 경우
   if (!hasAutoplay(node)) {
-    hasProblem = true;
     delete suggestionNode.attribs['autoplay'];
     suggestion.addDescription(`
       The <video> or <audio> tag should not include a 'autoplay' attribute.
@@ -41,7 +39,6 @@ export const videoAndAudioValidator = (suggestion: HTMLSuggestion) => {
 
   // head 태그에 <meta name='viewport'>가 없는 경우
   if (!hasTrack(node)) {
-    hasProblem = true;
     let children = suggestionNode.children;
     if (children) {
       const keys = Object.keys(children);
