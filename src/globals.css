@@ -48,6 +48,11 @@
   text-indent: -1em;
   margin-left: 1em;
 }
+
+.ul > li {
+  text-indent: -1em;
+  margin-left: 1em;
+}
 /* =================================================== */
 
 

@@ -17,7 +17,7 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
     <div
       className='fixed z-50 left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50'
     >
-      <div className="result-page h-1/2 min-h-96 lg:w-1/3 w-5/6 p-6 bg-white text-black rounded-lg overflow-auto">
+      <div className="result-page h-3/5 min-h-96 lg:w-1/3 w-5/6 p-6 bg-white text-black rounded-lg overflow-auto">
         <div className='mb-6 text-2xl font-bold'>
           <span>About this Site</span>
           <button className='float-right' onClick={onClose}><IoClose /></button>
@@ -25,7 +25,7 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
         <p>This site is a simple web accessibility inspection site, where you can upload HTML or CSS files and it inspects the web accessibility based on the uploaded code. It doesn't provide a comprehensive web accessibility inspection, but only a few items.</p>
         <p className='my-3'>Here are the inspection items available:</p>
         <h3 className='text-xl font-bold mt-7 mb-3'>HTML</h3>
-        <ul className='mb-7'>
+        <ul className='mb-7 ul'>
           <li>- Check for the presence of the 'lang' attribute in the &lt;html&gt; tag</li>
           <li>- Check for the existence of &lt;meta name="viewport"&gt;</li>
           <li>- Check for the 'alt', 'src' attributes in the &lt;img&gt; tag</li>
@@ -35,7 +35,7 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
           <li>- Simple XSS attack check</li>
         </ul>
         <h3 className='text-xl font-bold my-3'>CSS</h3>
-        <ul>
+        <ul className='ul'>
           <li>- Contrast check for background, border, and text (only one element is inspected)</li>
           <li>- Check for the use of 'px' in 'font-size', 'line-height', 'word-spacing', 'letter-spacing'</li>
         </ul>
