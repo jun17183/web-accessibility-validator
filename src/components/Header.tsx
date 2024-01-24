@@ -65,6 +65,7 @@ export default function Header() {
         </Link>
         <a
           href='https://github.com/jun17183/web-accessibility-validator'
+          target='_black'
           className='flex items-center font-semibold text-xl'
         >
           <FaGithub size={26} />
