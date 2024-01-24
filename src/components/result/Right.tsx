@@ -35,7 +35,7 @@ export default function Right() {
                   hasProblem ? (
                     <span className='text-white'>Please <span className='font-bold text-sky-400'>click on a highligted code</span><br/>to see how it can be improved.</span>
                   ) : (
-                    <span className='text-white'>There is <span className='font-bold text-sky-400'>no problem</span> with this file.</span>
+                    <span className='text-white'>I have nothing to suggest.</span>
                   )
                 }
               </div>

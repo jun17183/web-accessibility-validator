@@ -30,7 +30,7 @@ let capEnd = 3;
 let capAttr = 4;
 
 let openBraces = 0;  // 열린 중괄호 `{`의 개수
-let closeBraces = 0;  // 닫힌 중괄호 `}`의 개수
+let hasProblem = false;
 
 function isEmpty (x: any) {
   return typeof x === 'undefined' || x.length === 0 || x === null;
@@ -40,7 +40,7 @@ function trim(str: string) {
   return str.replace(/^\s+|\s+$/g, '');
 }
 
-export function cssToJson(cssString: string, args: Args = { ordered: true, comments: true, stripComments: true, split: true }): CSSNode {
+function _cssToJson(cssString: string, args: Args = { ordered: true, comments: true, stripComments: true, split: true }): CSSNode {
   const node: CSSNode = {}
   
   let match = null;
@@ -66,7 +66,7 @@ export function cssToJson(cssString: string, args: Args = { ordered: true, comme
     openBraces++;
 
       if (openBraces >= 2) {
-        console.error('Syntax error: Unexpected start of CSS rule');
+        hasProblem = true;
         return { result: 'syntax error' }
       }
     } else if (!isEmpty(match[capEnd])) {
@@ -82,6 +82,10 @@ export function cssToJson(cssString: string, args: Args = { ordered: true, comme
       let name = match[capSelector].trim();
       // This will return when we encounter a closing brace
       let newNode = cssToJson(cssString, args);
+      if (newNode['result'] && newNode['result'] === 'syntax error') {
+        hasProblem = true;
+        return { result: 'syntax error' }
+      }
       if (args.ordered) {
         let obj: CSSNodeValue = { 
           name: name, 
@@ -145,6 +149,15 @@ export function cssToJson(cssString: string, args: Args = { ordered: true, comme
       }
     }
   }
+  if (hasProblem) {
+    console.log('hi')
+    return { result: 'syntax error' }
+  }
   return node;
 }
 
+export function cssToJson(cssString: string, args: Args = { ordered: true, comments: true, stripComments: true, split: true }): CSSNode {
+  let result = _cssToJson(cssString, args);
+  if (hasProblem) return { result: 'syntax error' }
+  return result;
+}

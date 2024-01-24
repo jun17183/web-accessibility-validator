@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'reducers/store';
-import { setParsedCode } from 'reducers/codeSlice';
+import { resetState, setParsedCode } from 'reducers/codeSlice';
 
 import { Parser } from 'htmlparser2';
 import { DomHandler, ChildNode, Text, isTag, isDirective, isComment } from 'domhandler';
@@ -16,9 +16,11 @@ import CodeBlock from './CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
 import { HTMLValidator } from 'validator/html';
 import { CSSValidator } from 'validator/css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Left() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const language = useSelector((state: RootState) => state.codeReducer.language);
   const code = useSelector((state: RootState) => state.codeReducer.code);
   const parsedCode = useSelector((state: RootState) => state.codeReducer.parsedCode);
@@ -77,39 +79,29 @@ export default function Left() {
 
   // css도 exception 추가. 에러나는 css 파일 올리면 무한로딩 걸림
   useEffect(() => {
-    try {
-      if (language === 'html') {
-        const handler = new DomHandler((error, result) => {
-          if (error) {
-            alert(error);
-          } else {
-            console.log(result);
-            const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
-            HTMLValidator(parsedHtmlCode);
-            dispatch(setParsedCode(parsedHtmlCode));
-          }
-        });
-        const parser = new Parser(handler);
-        parser.write(code);
-        parser.end();
-
-      } else if (language === 'css') {
-        const parsedCSSCode = cssToJson(code);
-
-        if (parsedCSSCode['result'] === 'syntax error') {
-          throw 'syntax error';
+    if (language === 'html') {
+      const handler = new DomHandler((error, result) => {
+        if (error) {
+          alert(error);
+        } else {
+          const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
+          HTMLValidator(parsedHtmlCode);
+          dispatch(setParsedCode(parsedHtmlCode));
         }
+      });
+      const parser = new Parser(handler);
+      parser.write(code);
+      parser.end();
 
+    } else if (language === 'css') {
+      const parsedCSSCode = cssToJson(code);
+
+      if (parsedCSSCode['result'] === 'syntax error') {
+        dispatch(setParsedCode('error'));
+      } else {
         CSSValidator(parsedCSSCode);
         dispatch(setParsedCode(parsedCSSCode));
       }
-    } catch (e) {
-      if (e === 'syntax error') { 
-        alert('Invalid syntax detected in the file. Please correct it and try again.'); 
-      } else {
-        alert('An unknown problem has occurred.');
-      }
-      console.log(e);
     }
   }, [code]);
 

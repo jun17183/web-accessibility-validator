@@ -36,6 +36,7 @@ export default function Uploader() {
           }
         }
         fr.readAsText(file);
+        e.target.value = '';  // 파일 선택 초기화
       } else {
         alert('File upload failed');
       }
