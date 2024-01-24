@@ -5,7 +5,7 @@ import CSSHighlighter from 'highlighter/css';
 import { CSSNode, HTMLNode, ParsedCode } from 'utils/types';
 
 const SourceIsEmpty = () => <div className='flex justify-center items-center h-full text-3xl text-white'>Your source is empty.</div>
-const SourceHasProblem = () => <div className='flex justify-center items-center h-full text-2xl text-white'>It seems like there's an issue with your source code. <br/>Please check if you've used the correct format or syntax.</div>
+const SourceHasProblem = () => <div className='flex justify-center items-center h-full text-2xl text-white'><span>It seems like there's <span className='font-bold text-red-500'>an issue</span> with your source code. <br/>Please check if you've used the correct <span className='font-bold text-red-500'>format or syntax.</span></span></div>
 
 export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) {
   const [highlightedCode, setHighlightedCode] = useState<ReactNode>('');
