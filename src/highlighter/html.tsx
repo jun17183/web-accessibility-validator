@@ -118,7 +118,7 @@ const ElementNode = ({ name, attribs, children, tabStack, suggestion }: { name: 
             const isTag = ((item as Element).name !== undefined && (item as Element).attribs !== undefined);
             if (isTag && !hasTag) hasTag = true;
             return isTag ? (
-              <div key={i}>{ChildrenTab}{getHighlightedNode(item, tabStack)}</div>
+              <div className={`pr-4 w-fit`} key={i}>{ChildrenTab}{getHighlightedNode(item, tabStack)}</div>
             ) : (
               <span key={i}>{getHighlightedNode(item, tabStack)}</span>
             );
