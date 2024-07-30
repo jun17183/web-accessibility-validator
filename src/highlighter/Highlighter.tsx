@@ -33,7 +33,6 @@ export default function Highlighter({ parsedCode }: { parsedCode: ParsedCode }) 
         const highlightedHTML = HTMLHighlighter(parsedCode);
         setHighlightedCode(highlightedHTML);
       } else if (isCSSNode(parsedCode)) {
-        console.log(parsedCode)
         const highlightedCSS = CSSHighlighter(parsedCode);
         setHighlightedCode(highlightedCSS);
       } else {

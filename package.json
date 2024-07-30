@@ -59,5 +59,9 @@
     "postcss": "^8.4.32",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.0"
-  }
+  },
+  "description": "https://velog.io/@jun17183/series/web-accessibility-validator",
+  "main": "postcss.config.js",
+  "author": "",
+  "license": "ISC"
 }

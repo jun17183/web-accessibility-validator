@@ -1,26 +1,24 @@
 import { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { setHasProblem, setParsedCode } from 'reducers/codeSlice';
 import { RootState } from 'reducers/store';
-import { resetState, setParsedCode } from 'reducers/codeSlice';
 
+import { ChildNode, DomHandler, Text, isComment, isDirective, isTag } from 'domhandler';
 import { Parser } from 'htmlparser2';
-import { DomHandler, ChildNode, Text, isTag, isDirective, isComment } from 'domhandler';
 import { cssToJson } from 'utils/cssjson';
 
-import { HTMLNode, Element as CustomElement, Text as CustomText, ProcessingInstruction as CustomProcessingInstruction, Comment as CustomComment } from 'utils/types';
+import { Comment as CustomComment, Element as CustomElement, ProcessingInstruction as CustomProcessingInstruction, Text as CustomText, HTMLNode } from 'utils/types';
 
 import Box from 'components/result/Box';
 import BoxTitle from 'components/result/BoxTitle';
-import CodeBlock from './CodeBlock';
 import Highlighter from 'highlighter/Highlighter';
-import { HTMLValidator } from 'validator/html';
 import { CSSValidator } from 'validator/css';
-import { useNavigate } from 'react-router-dom';
+import { HTMLValidator } from 'validator/html';
+import CodeBlock from './CodeBlock';
 
 export default function Left() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const language = useSelector((state: RootState) => state.codeReducer.language);
   const code = useSelector((state: RootState) => state.codeReducer.code);
   const parsedCode = useSelector((state: RootState) => state.codeReducer.parsedCode);
@@ -85,7 +83,8 @@ export default function Left() {
           alert(error);
         } else {
           const parsedHtmlCode: HTMLNode = covertChildNodeToHtmlNode(result);
-          HTMLValidator(parsedHtmlCode);
+
+          dispatch(setHasProblem(HTMLValidator(parsedHtmlCode)));
           dispatch(setParsedCode(parsedHtmlCode));
         }
       });
@@ -99,7 +98,7 @@ export default function Left() {
       if (parsedCSSCode['result'] === 'syntax error') {
         dispatch(setParsedCode('error'));
       } else {
-        CSSValidator(parsedCSSCode);
+        dispatch(setHasProblem(CSSValidator(parsedCSSCode)));
         dispatch(setParsedCode(parsedCSSCode));
       }
     }

@@ -150,7 +150,6 @@ function _cssToJson(cssString: string, args: Args = { ordered: true, comments: t
     }
   }
   if (hasProblem) {
-    console.log('hi')
     return { result: 'syntax error' }
   }
   return node;

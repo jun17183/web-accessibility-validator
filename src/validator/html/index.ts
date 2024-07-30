@@ -1,25 +1,22 @@
 import { Element, HTMLNode, HTMLSuggestion, HTMLType, Text } from 'utils/types';
 import { isElement, isText } from 'utils/util';
-import { imgValidator } from 'validator/html/img';
 import { aValidator } from 'validator/html/a';
+import { frameValidator } from 'validator/html/frame';
+import { headValidator } from 'validator/html/head';
+import { htmlValidator } from 'validator/html/html';
+import { imgValidator } from 'validator/html/img';
 import { tableValidator } from 'validator/html/table';
 import { videoAndAudioValidator } from 'validator/html/videoAndAudio';
 import { xssValidator } from 'validator/html/xss';
-import { htmlValidator } from 'validator/html/html';
-import { headValidator } from 'validator/html/head';
-import { frameValidator } from 'validator/html/frame';
-import { setHasProblem } from 'reducers/codeSlice';
 
-export const HTMLValidator = (parsedHTMLCode: HTMLNode): HTMLNode => {                                                       
-  Object.values(parsedHTMLCode).forEach(node => {
-    if (isText(node)) TextValidator(node);
-    if (isElement(node)) ElementValidator(node);
+export const HTMLValidator = (parsedHTMLCode: HTMLNode): boolean => {
+  let hasProblem = false;
 
-    if (node.suggestion && node.suggestion?.getDescription().length > 0) {
-      setHasProblem(true);
-    }
-  });
-  return parsedHTMLCode;
+  for (const node of Object.values(parsedHTMLCode)) {
+    if (isText(node) && TextValidator(node)) hasProblem = true;
+    if (isElement(node) && ElementValidator(node)) hasProblem = true;
+  }
+  return hasProblem;
 }
 
 const getSuggestion = (node: HTMLType): HTMLSuggestion => {
@@ -29,12 +26,17 @@ const getSuggestion = (node: HTMLType): HTMLSuggestion => {
   return suggestion;
 }
 
-const TextValidator = (node: Text) => {
+const TextValidator = (node: Text): boolean => {
   const suggestion = getSuggestion(node);
   xssValidator(suggestion);
+
+  if (suggestion && suggestion.getDescription().length > 0) {
+    return true;
+  }
+  return false;
 }
 
-const ElementValidator = (node: Element) => {
+const ElementValidator = (node: Element): boolean => {
   const suggestion = getSuggestion(node);
   htmlValidator(suggestion);
   headValidator(suggestion);
@@ -44,8 +46,16 @@ const ElementValidator = (node: Element) => {
   videoAndAudioValidator(suggestion);
   frameValidator(suggestion);
 
+  let hasProblem = false;
+
   if (node.children !== undefined && node.name !== 'script') {
-    HTMLValidator(node.children);
+    hasProblem = HTMLValidator(node.children);
   }
+
+  if (suggestion && suggestion.getDescription().length > 0) {
+    hasProblem = true;
+  }
+
+  return hasProblem;
 }
 

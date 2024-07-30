@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
-import { FaGithub, FaInfoCircle } from "react-icons/fa";
-import { IoHomeSharp, IoClose } from "react-icons/io5";
 import { useState } from 'react';
+import { FaGithub, FaInfoCircle } from "react-icons/fa";
+import { IoClose, IoHomeSharp } from "react-icons/io5";
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { resetState } from 'reducers/codeSlice';
 
 interface ModalProps {
@@ -46,11 +47,13 @@ const InfoModal = ({ show, onClose }: ModalProps) => {
 }
 
 export default function Header() {
+  const dispatch = useDispatch();
+
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
-  const homeClickEvent = () => resetState();
+  const homeClickEvent = () => dispatch(resetState());
 
   return (
     <header className='flex flex-none items-center justify-between top-0 w-full px-6 py-4 bg-vscode-bg text-white'>
